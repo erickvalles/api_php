@@ -8,7 +8,7 @@
 $host ="localhost";
 $u = "root";
 $p ="";
-$db="registro2017";
+$db="lugares_app";
 
 
 $conexion = mysqli_connect($host,$u,$p,$db);

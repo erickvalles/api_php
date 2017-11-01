@@ -8,17 +8,32 @@
 include "conex.php";
 
 
-consulta(5,$conexion);
+consulta($_GET['q'],$conexion);
 
 function consulta($id,$conexion){
-    $sql = "SELECT * FROM participantes WHERE id_carrera = '$id'";
 
-    $res = mysqli_query($conexion,$sql);
-    $response = array();
-    while($a = mysqli_fetch_array($res)){
-        $persona = array('id'=>$a['codigo'],'nombre'=>$a['nombre']);
-        array_push($response,$persona);
+    if($id > 0){
+        $sql = "SELECT * FROM lugars WHERE id = '$id'";
+    }else{
+        $sql = "SELECT * FROM lugars";
     }
 
-    echo json_encode($response);
+
+
+    $res = mysqli_query($conexion,$sql);
+    if($res){
+
+        $response = array();
+        while($a = mysqli_fetch_array($res)){
+
+            $lugar = array('id'=>$a['id'],'nombre'=>utf8_encode($a['nombre']),'descripcion'=>utf8_encode($a['descripcion']));
+            array_push($response,$lugar);
+        }
+
+
+        echo json_encode($response);
+    }
+    else{
+        echo "Error:".mysqli_error($conexion);
+    }
 }
